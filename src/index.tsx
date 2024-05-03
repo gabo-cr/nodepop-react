@@ -4,6 +4,13 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthContextProvider } from './context/AuthContextProvider';
+import storage from './utils/storage';
+import { setAuthorizationHeader } from './api/client';
+
+const accessToken = storage.get('accessToken');
+if (accessToken) {
+  setAuthorizationHeader(accessToken);
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -11,7 +18,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthContextProvider>
+      <AuthContextProvider isDefaultLogged={!!accessToken}>
         <App />
       </AuthContextProvider>
     </BrowserRouter>

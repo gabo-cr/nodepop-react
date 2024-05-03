@@ -1,43 +1,36 @@
-import { createContext, useEffect, useState } from "react";
-import storage from "../utils/storage";
-import { setAuthorizationHeader } from "../api/client";
+import { createContext, useContext, useState } from "react";
 
 const defaultProvider = {
 	isLogged: false,
-	login: () => {},
-	logout: () => {}
+	onLogin: () => {},
+	onLogout: () => {}
 };
 
 const AuthContext = createContext(defaultProvider);
 
 type Props = {
-	children: React.ReactNode
+	isDefaultLogged: boolean,
+	children: React.ReactNode,
 };
 
-export const AuthContextProvider = ({ children }: Props) => {
-	const [isLogged, setIsLogged] = useState<boolean>(false);
-
-	useEffect(() => {
-		const initAuth = async () => {
-			const accessToken = storage.get('accessToken');
-			if (accessToken) {
-				setAuthorizationHeader(accessToken);
-			}
-		};
-
-		initAuth();
-	}, []);
+export const AuthContextProvider = ({ isDefaultLogged, children }: Props) => {
+	const [isLogged, setIsLogged] = useState<boolean>(isDefaultLogged);
 
 	const handleLogin = () => setIsLogged(true);
 	const handleLogout =() => setIsLogged(false);
 
 	const authValue = {
 		isLogged,
-		login: handleLogin,
-		logout: handleLogout
+		onLogin: handleLogin,
+		onLogout: handleLogout
 	};
 
 	return (
 		<AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>
 	);
+};
+
+export const useAuth = () => {
+	const auth = useContext(AuthContext);
+	return auth;
 };
