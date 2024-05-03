@@ -3,11 +3,13 @@ import { FormInput } from "../../components/shared/FormInput";
 import { login } from "../../api/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LoginParameters, LoginResponseError } from "../../types/auth";
+import { useAuth } from "../../context/AuthContextProvider";
 
 export default function LoginPage() {
 	//** Hooks */
 	const location = useLocation();
   	const navigate = useNavigate();
+	const { onLogin } = useAuth();
 
 	//** States */
 	const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -15,6 +17,7 @@ export default function LoginPage() {
 		email: '',
 		password: '',
 	});
+	const [rememberme, setRememberme] = useState<boolean>(false);
 	const [error, setError] = useState<LoginResponseError | null>(null);
 
 	//** Handlers */
@@ -25,14 +28,18 @@ export default function LoginPage() {
 		}));
 	};
 
+	const handleChangeRememberme = (event: ChangeEvent<HTMLInputElement>) => {
+		setRememberme(event.target.checked);
+	};
+
 	const handleSubmit = async (event: SyntheticEvent) => {
 		event.preventDefault();
 
 		try {
 			setIsFetching(true);
-			await login(formValues);
+			await login(formValues, rememberme);
 			setIsFetching(false);
-			//onLogin();
+			onLogin();
 			const to = location.state?.from || '/';
 			navigate(to, { replace: true });
 		} catch (error: any) {
@@ -52,6 +59,7 @@ export default function LoginPage() {
 			<form onSubmit={handleSubmit}>
 				<FormInput label="Email" name="email" id="email" type="text" value={email} onChange={handleChange} />
 				<FormInput label="Password" name="password" id="password" type="password" value={password} onChange={handleChange} />
+				<input type="checkbox" name="rememberme" id="rememberme" checked={rememberme} onChange={handleChangeRememberme} />
 				<button type="submit" disabled={buttonDisabled}>Log in</button> 
 			</form>
 			{error && (
