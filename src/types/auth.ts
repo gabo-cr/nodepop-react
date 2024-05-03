@@ -1,13 +1,8 @@
-export type LoginParameters = {
+export type TLoginParameters = {
 	email: string,
 	password: string,
 };
 
-export type LoginResponseSuccess = {
+export type TLoginResponseSuccess = {
 	accessToken: string,
-};
-
-export type LoginResponseError = {
-	statusCode: number,
-	message: string,
 };

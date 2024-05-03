@@ -1,0 +1,62 @@
+.advert {
+	box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
+	position: relative;
+}
+
+.advert .floating {
+	position: absolute;
+	top: 0;
+	left: 0;
+	color: #fff;
+	padding: 5px 12px;
+}
+.advert .floating.sale {
+	background-color: #008507;
+}
+.advert .floating.search {
+	background-color: #910000;
+}
+
+.advert .header .image {
+	width: 100%;
+	min-height: 250px;
+	background-size: cover;
+	background-position: 50% 50%;
+}
+.advert .header .image.default {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-bottom: 1px solid #e5e5e5;
+	background-color: #e5e5e5;
+}
+.advert .header .image.default span {
+	font-size: 2rem;
+	text-align: center;
+	max-width: 160px;
+}
+
+.advert .content {
+	padding: 0 1rem 2rem;
+}
+.advert .content .title h2 {
+	margin: 1rem 0;
+	font-size: 1.5rem;
+}
+.advert .content .block span {
+	font-size: 1rem;
+}
+.advert .content .block .label {
+	font-weight: 600;
+}
+
+.advert .footer {
+	padding: 0 1rem 1rem;
+}
+.advert .footer .tag {
+	border: 1px solid #ccc;
+	padding: 2px 7px;
+	border-radius: 15px;
+	margin-right: 5px;
+	font-size: 0.9rem;
+}

@@ -2,8 +2,10 @@ import { ChangeEvent, SyntheticEvent, useState } from "react";
 import { FormInput } from "../../components/shared/FormInput";
 import { login } from "../../api/auth";
 import { useLocation, useNavigate } from "react-router-dom";
-import { LoginParameters, LoginResponseError } from "../../types/auth";
+import { TLoginParameters } from "../../types/auth";
+import { TResponseError } from "../../types/error";
 import { useAuth } from "../../context/AuthContextProvider";
+import Alert from "../../components/shared/alert/Alert";
 
 export default function LoginPage() {
 	//** Hooks */
@@ -13,12 +15,12 @@ export default function LoginPage() {
 
 	//** States */
 	const [isFetching, setIsFetching] = useState<boolean>(false);
-	const [formValues, setFormValues] = useState<LoginParameters>({
+	const [formValues, setFormValues] = useState<TLoginParameters>({
 		email: '',
 		password: '',
 	});
 	const [rememberme, setRememberme] = useState<boolean>(false);
-	const [error, setError] = useState<LoginResponseError | null>(null);
+	const [error, setError] = useState<TResponseError | null>(null);
 
 	//** Handlers */
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -48,8 +50,6 @@ export default function LoginPage() {
 		}
 	};
 
-	const resetError = () => setError(null);
-
 	const { email, password } = formValues;
 	const buttonDisabled = !email || !password || isFetching;
 
@@ -63,9 +63,9 @@ export default function LoginPage() {
 				<button type="submit" disabled={buttonDisabled}>Log in</button> 
 			</form>
 			{error && (
-				<div className="loginPage-error" onClick={resetError}>
+				<Alert variant="error">
 					{error.message}
-				</div>
+				</Alert>
 			)}
 		</div>
 	);

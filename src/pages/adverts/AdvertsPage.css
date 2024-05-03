@@ -1,0 +1,11 @@
+.advertsList {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 2rem;
+	list-style: none;
+}
+
+.advertsList * {
+	text-decoration: none;
+	color: inherit;
+}
