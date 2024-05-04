@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import './advert.css';
+import './Advert.css';
 
 type Props = {
 	createdAt: string,

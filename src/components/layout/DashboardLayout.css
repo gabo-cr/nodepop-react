@@ -1,0 +1,9 @@
+.dashboard main {
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 20px 0;
+}
+
+.dashboard main h1 {
+	margin: 10px 0 20px;
+}

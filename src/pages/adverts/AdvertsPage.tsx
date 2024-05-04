@@ -8,6 +8,7 @@ import { TResponseError } from "../../types/error";
 import Advert from "../../components/adverts/Advert";
 import EmptyList from "../../components/adverts/EmptyList";
 import './AdvertsPage.css';
+import DashboardLayout from "../../components/layout/DashboardLayout";
 
 export default function AdvertsPage() {
 	const [adverts, setAdverts] = useState<TAdvert[]>([]);
@@ -27,7 +28,7 @@ export default function AdvertsPage() {
 	}, []);
 
 	return (
-		<>
+		<DashboardLayout title="Anuncios">
 		{error && (
 			<Alert variant="error">
 				{error.message}
@@ -51,6 +52,6 @@ export default function AdvertsPage() {
 				<EmptyList />
 			)
 		}
-		</>
+		</DashboardLayout>
 	);
 }
