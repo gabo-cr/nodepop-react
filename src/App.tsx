@@ -1,4 +1,4 @@
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/auth/LoginPage";
 import AdvertsPage from "./pages/adverts/AdvertsPage";
 import RequireAuth from "./components/auth/RequireAuth";
@@ -21,6 +21,9 @@ function App() {
         }>
           <Route index element={<AdvertsPage />} />
       </Route>
+      <Route path="/" element={<Navigate to="/adverts" />} />
+      <Route path="/404" element={<div>404 | Not found</div>} />
+      <Route path="*" element={<Navigate to="/404" />} />
     </Routes>
   );
 }
