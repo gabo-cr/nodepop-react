@@ -1,0 +1,23 @@
+.formSelect {
+	margin-bottom: 10px;
+}
+
+.formSelect .label {
+	display: block;
+	font-weight: 600;
+	margin: 10px 0;
+}
+
+.formSelect .select {
+	display: block;
+	width: 100%;
+	padding: 8px 10px;
+	color: #495057;
+	border: 1px solid #ced4da;
+	border-radius: 5px;
+	font-size: 1rem;
+}
+
+.formSelect .select option {
+	padding: 8px 10px;
+}

@@ -31,7 +31,7 @@ export default function Advert({ createdAt, name, sale, price, tags, photo }: Pr
 			</div>
 			<div className="description">
 				<div className="block">
-					<span className="label">{sale ? 'Precio:' : 'Dispuesto a pagar:'}</span>
+					<span className="label">{sale ? 'Precio: ' : 'Dispuesto a pagar: '}</span>
 					<span className="value">{price} euros</span>
 				</div>
 			</div>
@@ -40,7 +40,7 @@ export default function Advert({ createdAt, name, sale, price, tags, photo }: Pr
 			<div className="tags">
 				{
 					tags.length && tags.map(tag => (
-						<span className="tag">{tag}</span>
+						<span className="tag" key={tag}>{tag}</span>
 					))
 				}
 			</div>
