@@ -58,9 +58,9 @@ export default function NewAdvertPage() {
 		
 		try {
 			setIsLoading(true);
-			await createAdvert({ ...formValues, sale: sale === '1'});
+			const newAdvert = await createAdvert({ ...formValues, sale: sale === '1'});
 			setIsLoading(false);
-			navigate('/adverts');
+			navigate(`/adverts/${newAdvert.id}`);
 		} catch (error: any) {
 			setIsLoading(false);
 			setError(error);
