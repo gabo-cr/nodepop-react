@@ -1,11 +1,13 @@
 import { ChangeEvent, SyntheticEvent, useState } from "react";
-import { FormInput } from "../../components/shared/FormInput";
+import { FormInput } from "../../components/shared/form/input/FormInput";
 import { login } from "../../api/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { TLoginParameters } from "../../types/auth";
 import { TResponseError } from "../../types/error";
 import { useAuth } from "../../context/AuthContextProvider";
 import Alert from "../../components/shared/alert/Alert";
+import AuthLayout from "../../components/layout/authLayout/AuthLayout";
+import Button from "../../components/shared/button/Button";
 
 export default function LoginPage() {
 	//** Hooks */
@@ -54,19 +56,20 @@ export default function LoginPage() {
 	const buttonDisabled = !email || !password || isFetching;
 
 	return (
-		<div className="loginPage">
-			<h1>Iniciar sesión</h1>
-			<form onSubmit={handleSubmit}>
-				<FormInput label="Email" name="email" id="email" type="text" value={email} onChange={handleChange} />
-				<FormInput label="Password" name="password" id="password" type="password" value={password} onChange={handleChange} />
-				<input type="checkbox" name="rememberme" id="rememberme" checked={rememberme} onChange={handleChangeRememberme} />
-				<button type="submit" disabled={buttonDisabled}>Log in</button> 
-			</form>
-			{error && (
-				<Alert variant="error">
-					{error.message}
-				</Alert>
-			)}
-		</div>
+		<AuthLayout title="Iniciar sesión">
+			<div className="loginPage">
+				<form onSubmit={handleSubmit}>
+					<FormInput label="Email" name="email" id="email" type="text" value={email} onChange={handleChange} />
+					<FormInput label="Password" name="password" id="password" type="password" value={password} onChange={handleChange} />
+					<FormInput label="Recuérdame" name="rememberme" id="rememberme" type="checkbox" checked={rememberme} onChange={handleChangeRememberme} />
+					<Button type="submit" disabled={buttonDisabled} fullwidth>Log in</Button> 
+				</form>
+				{error && (
+					<Alert variant="error">
+						{error.message}
+					</Alert>
+				)}
+			</div>
+		</AuthLayout>
 	);
 }

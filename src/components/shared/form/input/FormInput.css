@@ -1,0 +1,30 @@
+.formField {
+	margin-bottom: 10px;
+}
+
+.formField .label {
+	display: block;
+	font-weight: 600;
+	margin: 10px 0;
+}
+
+.formField .input {
+	display: block;
+	width: 100%;
+	padding: 8px 15px;
+	color: #495057;
+	border: 1px solid #ced4da;
+	border-radius: 5px;
+	font-size: 1rem;
+}
+
+.formCheck {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 7px;
+	margin-bottom: 10px;
+}
+.formCheck input {
+	margin: 2px 0 0;
+}
