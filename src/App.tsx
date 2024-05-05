@@ -3,6 +3,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import AdvertsPage from "./pages/adverts/AdvertsPage";
 import RequireAuth from "./components/auth/RequireAuth";
 import NewAdvertPage from "./pages/adverts/new/NewAdvertPage";
+import AdvertPage from "./pages/adverts/details/AdvertPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           </RequireAuth>
         }>
           <Route index element={<AdvertsPage />} />
+          <Route path=":advertId" element={<AdvertPage />} />
           <Route path="new" element={<NewAdvertPage />} />
       </Route>
       <Route path="/" element={<Navigate to="/adverts" />} />
