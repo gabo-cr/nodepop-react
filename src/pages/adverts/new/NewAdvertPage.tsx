@@ -11,6 +11,13 @@ import Alert from "../../../components/shared/alert/Alert";
 import { useNavigate } from "react-router-dom";
 import './NewAdvertPage.css';
 
+type FormError = {
+	name?: string,
+	sale?: string,
+	price?: string,
+	tags?: string,
+};
+
 export default function NewAdvertPage() {
 	const navigate = useNavigate();
 	
@@ -22,6 +29,7 @@ export default function NewAdvertPage() {
 		tags: [],
 		photo: null
 	});
+	const [formErrors, setFormErrors] = useState<FormError>();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<TResponseError | null>(null);
 
@@ -53,14 +61,53 @@ export default function NewAdvertPage() {
 		});
 	};
 
+	const validateForm = () => {
+		let valid = true;
+		let newFormErrors = {};
+		if (!formValues.name) {
+			newFormErrors = {
+				...newFormErrors,
+				name: 'El campo nombre es requerido.'
+			};
+			valid = false;
+		}
+		if (!formValues.price || formValues.price <= 0) {
+			newFormErrors = {
+				...newFormErrors,
+				price: 'El campo precio es requerido y debe ser mayor a cero.'
+			};
+			valid = false;
+		}
+		if (!formValues.sale) {
+			newFormErrors = {
+				...newFormErrors,
+				sale: 'El campo compra/venta es requerido.'
+			};
+			valid = false;
+		}
+		if (!formValues.tags || !formValues.tags.length) {
+			newFormErrors = {
+				...newFormErrors,
+				tags: 'El campo tags es requerido. Seleccione al menos un tag.'
+			};
+			valid = false;
+		}
+		setFormErrors(newFormErrors);
+
+		return valid;
+	};
+
 	const handleSubmit = async (event: SyntheticEvent) => {
 		event.preventDefault();
 		
 		try {
-			setIsLoading(true);
-			const newAdvert = await createAdvert({ ...formValues, sale: sale === '1'});
-			setIsLoading(false);
-			navigate(`/adverts/${newAdvert.id}`);
+			const valid = validateForm();
+			if (valid) {
+				setIsLoading(true);
+				const newAdvert = await createAdvert({ ...formValues, sale: sale === '1'});
+				setIsLoading(false);
+				navigate(`/adverts/${newAdvert.id}`);
+			}
 		} catch (error: any) {
 			setIsLoading(false);
 			setError(error);
@@ -74,16 +121,24 @@ export default function NewAdvertPage() {
 	const tagsOptions: TSelectOption[] = allTags.map(tag => ({ value: tag, text: tag }));
 
 	const { name, sale, price, tags } = formValues;
-	const buttonDisabled = !name || !sale || !price || !tags.length || isLoading;
 
 	return (
 		<DashboardLayout title="Crear anuncio">
 			<div className="newAdvert">
-				{error && (
-					<Alert variant="error">
-						{error.message}
-					</Alert>
-				)}
+				{
+					error && (
+						<Alert variant="error">
+							{error.message}
+						</Alert>
+					)
+				}
+				{
+					formErrors && (
+						<Alert variant="error">
+							{Object.values(formErrors).map((error, index) => <div key={index}>{error}</div>)}
+						</Alert>
+					)
+				}
 				<form onSubmit={handleSubmit}>
 					<FormInput
 						type="text"
@@ -125,7 +180,7 @@ export default function NewAdvertPage() {
 						value={tags}
 						multiple
 					/>
-					<Button type="submit" disabled={buttonDisabled}>Crear</Button>
+					<Button type="submit" disabled={isLoading}>Crear</Button>
 				</form>
 			</div>
 		</DashboardLayout>
