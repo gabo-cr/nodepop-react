@@ -8,7 +8,7 @@ La aplicación debe mostrar una página con los anuncios de los artículos, la p
 
 ## Contenido
 
-El repositorio contiene el proyecto desarrollado en React, inicializado usando [Create React App](https://facebook.github.io/create-react-app/docs/getting-started).
+El repositorio contiene el proyecto desarrollado en React con Typescript, inicializado usando [Create React App](https://facebook.github.io/create-react-app/docs/getting-started).
 
 Para el backend se utilizó el proyecto [nodepop-api](https://github.com/davidjj76/nodepop-api).
 
