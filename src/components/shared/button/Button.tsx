@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import './Button.css';
 import { Link } from 'react-router-dom';
 
-export type TButtonVariant = 'primary' | 'secondary' | 'link';
+export type TButtonVariant = 'primary' | 'secondary' | 'link' | 'delete';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	fullwidth?: boolean,

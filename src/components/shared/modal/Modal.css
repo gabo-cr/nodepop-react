@@ -1,0 +1,34 @@
+.modal {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: none;
+}
+.modal.show {
+	display: flex;
+}
+
+.modal .modal-content {
+	background-color: #fff;
+	border: 1px solid #a8a8a8;
+	border-radius: 5px;
+}
+
+.modal .content {
+	font-size: 1.2rem;
+	padding: 20px;
+}
+
+.modal .footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-top: 1px solid #a8a8a8;
+	padding: 20px;
+}

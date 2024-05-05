@@ -28,3 +28,14 @@
     background-color: #004085;
     border-color: #004085;
 }
+
+.btn.delete {
+    color: #fff;
+    background-color: #721c24;
+    border-color: #721c24;
+}
+.btn.delete:hover {
+    color: #fff;
+    background-color: #d13141;
+    border-color: #d13141;
+}

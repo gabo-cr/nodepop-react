@@ -1,0 +1,22 @@
+.loader-container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin: 20px auto;
+}
+
+.loader {
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	border: 9px solid;
+	border-color: #dbdcef;
+	border-right-color: #004085;
+	animation: spinner-loader 1s infinite linear;
+}
+ 
+@keyframes spinner-loader {
+	to {
+		transform: rotate(1turn);
+	}
+}
