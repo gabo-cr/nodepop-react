@@ -1,4 +1,10 @@
-.advertsList {
+.advertsSection {
+	display: grid;
+	grid-template-columns: 1fr 4fr;
+	gap: 2rem;
+}
+
+.advertsList ul {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	gap: 2rem;
@@ -9,4 +15,11 @@
 .advertsList * {
 	text-decoration: none;
 	color: inherit;
+}
+
+.advertsFilters-footer {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 10px;
 }
