@@ -1,46 +1,33 @@
-# Getting Started with Create React App
+# Bootcamp KeepCoding
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Módulo: Fundamentos de React
 
-## Available Scripts
+Este repositorio contiene la solución al proyecto propuesto en este módulo, que consiste en la creación de una aplicación web para un servicio de venta y búsqueda de artículos de segunda mano, que llamaremos `Nodepop in React`.
 
-In the project directory, you can run:
+La aplicación debe mostrar una página con los anuncios de los artículos, la página con los detalles del anuncio y un formulario para crear nuevos anuncios. Además, tendrá una página para iniciar sesión.
 
-### `npm start`
+## Contenido
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+El repositorio contiene el proyecto desarrollado en React, inicializado usando [Create React App](https://facebook.github.io/create-react-app/docs/getting-started).
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Para el backend se utilizó el proyecto [nodepop-api](https://github.com/davidjj76/nodepop-api).
 
-### `npm test`
+## Instalación
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Una vez clonado el proyecto, en primer lugar se deben instalar las dependencias:
 
-### `npm run build`
+```javascript
+npm install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Development
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Luego, se puede correr la aplicación en el ambiente de desarrollo:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```javascript
+npm start
+```
 
-### `npm run eject`
+La aplicación en el ambiente de desarrollo corre en [http://localhost:3000](http://localhost:3000) y se puede visualizar en el navegador.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+El backend corre por defecto en [http://localhost:3001](http://localhost:3001) y contiene un swagger que permite interactuar con el API [http://localhost:3001/swagger/](http://localhost:3001/swagger/).
