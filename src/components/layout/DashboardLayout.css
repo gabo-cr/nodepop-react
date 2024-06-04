@@ -1,10 +1,10 @@
-.dashboard main {
+.dashboard > main {
 	max-width: 1400px;
 	width: 100%;
 	margin: 0 auto;
 	padding: 20px 0;
 }
 
-.dashboard main h1 {
+.dashboard > main h1 {
 	margin: 10px 0 20px;
 }

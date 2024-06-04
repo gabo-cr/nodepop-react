@@ -29,19 +29,17 @@ const defaultFilterValues = {
 
 export default function AdvertsPage() {
 	const [allAdverts, setAllAdverts] = useState<TAdvert[]>([]);
-	const [adverts, setAdverts] = useState<TAdvert[]>([]);
 	const [allTags, setAllTags] = useState<string[]>([]);
 	const [error, setError] = useState<TResponseError | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [filterValues, setFilterValues] = useState<FilterValue>(defaultFilterValues);
 
 	useEffect(() => {
-		const getAllAdverts = async () => {
+		const loadAdverts = async () => {
 			try {
 				setIsLoading(true);
 				const allAdverts = await getAdverts();
 				setAllAdverts(allAdverts);
-				setAdverts(allAdverts);
 				setIsLoading(false);
 			} catch (error: any) {
 				setError(error);
@@ -49,7 +47,7 @@ export default function AdvertsPage() {
 			}
 		}
 
-		getAllAdverts();
+		loadAdverts();
 	}, []);
 
 	useEffect(() => {
@@ -61,7 +59,7 @@ export default function AdvertsPage() {
 		getAllTags();
 	}, [])
 
-	const handleFilter = () => {
+	const filterAdverts = () => {
 		let filteredAdverts = [...allAdverts];
 		for (const [key, value] of Object.entries(filterValues)) {
 			if (key === 'name') {
@@ -78,12 +76,11 @@ export default function AdvertsPage() {
 				filteredAdverts = val.length ? filteredAdverts.filter(advert => val.every(v => advert.tags.includes(v))) : filteredAdverts;
 			}
 		}
-		setAdverts(filteredAdverts);
-	}
+		return filteredAdverts;
+	};
 
 	const handleResetFilter = () => {
 		setFilterValues(defaultFilterValues);
-		setAdverts(allAdverts);
 	};
 
 	const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -99,6 +96,8 @@ export default function AdvertsPage() {
 	];
 	const tagsOptions: TSelectOption[] = allTags.map(tag => ({ value: tag, text: tag }));
 	const { name, sale, tags } = filterValues;
+
+	const filteredAdverts = filterAdverts();
 
 	if (isLoading) {
 		return (
@@ -138,7 +137,6 @@ export default function AdvertsPage() {
 						multiple
 					/>
 					<div className="advertsFilters-footer">
-						<Button onClick={handleFilter}>Filtrar</Button>
 						<Button onClick={handleResetFilter} variant="secondary">Limpiar filtros</Button>
 					</div>
 				</aside>
@@ -151,10 +149,10 @@ export default function AdvertsPage() {
 						)
 					}
 					{
-						adverts.length ? (
+						filteredAdverts.length ? (
 							<ul>
 							{
-								adverts.map(({ id, ...advert }) => (
+								filteredAdverts.map(({ id, ...advert }) => (
 									<li key={id}>
 										<Link to={`/adverts/${id}`}>
 											<Advert {...advert} />

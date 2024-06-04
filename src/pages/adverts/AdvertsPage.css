@@ -4,12 +4,17 @@
 	gap: 2rem;
 }
 
+.advertsList {
+	padding: 0;
+}
+
 .advertsList ul {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	gap: 2rem;
 	list-style: none;
 	padding: 0;
+	margin: 0;
 }
 
 .advertsList * {
@@ -22,4 +27,9 @@
 	justify-content: flex-start;
 	align-items: center;
 	gap: 10px;
+}
+
+.advertsFilters-footer button {
+	display: block;
+	width: 100%;
 }
