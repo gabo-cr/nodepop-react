@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContextProvider';
+import { useAuth } from '../../hooks/useAuth';
 
 type Props = {
 	children: React.ReactNode,

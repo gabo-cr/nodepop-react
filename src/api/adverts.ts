@@ -4,17 +4,17 @@ import { client } from "./client";
 
 const advertsURL = '/v1/adverts';
 
-export const getAdverts = () => {
+const getAdverts = () => {
 	const url = `${advertsURL}`;
 	return client.get<TResponseError, TAdvert[]>(url);
 };
 
-export const getAdvert = (advertId: string) => {
+const getAdvert = (advertId: string) => {
 	const url = `${advertsURL}/${advertId}`;
 	return client.get<TResponseError, TAdvert>(url);
 };
 
-export const createAdvert = (data: TAdvertFormValues) => {
+const createAdvert = (data: TAdvertFormValues) => {
 	const url = `${advertsURL}`;
 	const headers = {
 		'Content-Type': 'multipart/form-data',
@@ -22,7 +22,14 @@ export const createAdvert = (data: TAdvertFormValues) => {
 	return client.post<TResponseError, TAdvert, TAdvertFormValues>(url, data, { headers });
 };
 
-export const deleteAdvert = (advertId: string) => {
+const deleteAdvert = (advertId: string) => {
 	const url = `${advertsURL}/${advertId}`;
 	return client.delete<TResponseError>(url);
+};
+
+export const advertsService = {
+	getAdverts,
+	getAdvert,
+	createAdvert,
+	deleteAdvert
 };

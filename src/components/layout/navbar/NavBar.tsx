@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../../../hooks/useAuth";
 import AuthButton from "../../auth/AuthButton";
-import { useAuth } from "../../../context/AuthContextProvider";
 import './NavBar.css';
 
 export default function NavBar() {

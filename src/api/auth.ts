@@ -3,7 +3,7 @@ import { TLoginParameters, TLoginResponseSuccess } from '../types/auth';
 import { TResponseError } from '../types/error';
 import storage from '../utils/storage';
 
-export const login = (credentials: TLoginParameters, persist: boolean = false) => {
+const login = (credentials: TLoginParameters, persist: boolean = false) => {
 	return client.post<TResponseError, TLoginResponseSuccess, TLoginParameters>('/auth/login', credentials)
 		.then(({ accessToken }) => {
 			setAuthorizationHeader(accessToken);
@@ -13,10 +13,14 @@ export const login = (credentials: TLoginParameters, persist: boolean = false) =
 		});
 };
   
-export const logout = () => {
+const logout = () => {
 	return Promise.resolve().then(() => {
 		removeAuthorizationHeader();
 		storage.remove('accessToken');
 	});
 };
-  
+
+export const authService = {
+	login,
+	logout,
+};

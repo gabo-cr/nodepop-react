@@ -1,5 +1,5 @@
-import { useAuth } from '../../context/AuthContextProvider';
 import { logout } from '../../api/auth';
+import { useAuth } from '../../hooks/useAuth';
 import Button from '../shared/button/Button';
 import Modal from '../shared/modal/Modal';
 import { useState } from 'react';
