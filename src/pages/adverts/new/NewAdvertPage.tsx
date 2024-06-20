@@ -1,14 +1,18 @@
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { TAdvertFormValues } from "../../../types/adverts";
+
+import { createAdvert } from "../../../store/actions";
+import { getUi } from "../../../store/selectors";
+import { getTags } from "../../../api/tags";
+
 import DashboardLayout from "../../../components/layout/DashboardLayout";
 import { FormInput } from "../../../components/shared/form/input/FormInput";
-import { TAdvertFormValues } from "../../../types/adverts";
 import FormSelect, { TSelectOption } from "../../../components/shared/form/select/FormSelect";
 import Button from "../../../components/shared/button/Button";
-import { getTags } from "../../../api/tags";
-import { createAdvert } from "../../../api/adverts";
-import { TResponseError } from "../../../types/error";
 import Alert from "../../../components/shared/alert/Alert";
-import { useNavigate } from "react-router-dom";
+
 import './NewAdvertPage.css';
 
 type FormError = {
@@ -19,7 +23,8 @@ type FormError = {
 };
 
 export default function NewAdvertPage() {
-	const navigate = useNavigate();
+	const dispatch = useDispatch<any>();
+	const { pending: isLoading, error } = useSelector(getUi);
 	
 	const [allTags, setAllTags] = useState<string[]>([]);
 	const [formValues, setFormValues] = useState<TAdvertFormValues>({
@@ -30,9 +35,7 @@ export default function NewAdvertPage() {
 		photo: null
 	});
 	const [formErrors, setFormErrors] = useState<FormError>();
-	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [error, setError] = useState<TResponseError | null>(null);
-
+	
 	useEffect(() => {
 		const getAllTags = async () => {
 			const tags = await getTags();
@@ -99,18 +102,9 @@ export default function NewAdvertPage() {
 
 	const handleSubmit = async (event: SyntheticEvent) => {
 		event.preventDefault();
-		
-		try {
-			const valid = validateForm();
-			if (valid) {
-				setIsLoading(true);
-				const newAdvert = await createAdvert({ ...formValues, sale: sale === '1'});
-				setIsLoading(false);
-				navigate(`/adverts/${newAdvert.id}`);
-			}
-		} catch (error: any) {
-			setIsLoading(false);
-			setError(error);
+		const valid = validateForm();
+		if (valid) {
+			dispatch(createAdvert({ ...formValues, sale: sale === '1'}));
 		}
 	};
 

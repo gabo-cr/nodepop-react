@@ -61,8 +61,8 @@ export const loadAdverts = () => {
     }
     try {
       dispatch(advertsLoadPending());
-      const tweets = await advertsService.getAdverts();
-      dispatch(advertsLoadFulfilled(tweets));
+      const adverts = await advertsService.getAdverts();
+      dispatch(advertsLoadFulfilled(adverts));
     } catch (error) {
       dispatch(advertsLoadRejected(error));
     }
@@ -91,7 +91,7 @@ export const createAdvert = (advert: TAdvertFormValues) => {
       const { id } = await advertsService.createAdvert(advert);
       const createdAdvert = await advertsService.getAdvert(id);
       dispatch(advertsAddFulfilled(createdAdvert));
-      router.navigate(`/tweets/${createdAdvert.id}`);
+      router.navigate(`/adverts/${createdAdvert.id}`);
       return createdAdvert;
     } catch (error) {
       dispatch(advertsAddRejected(error));
@@ -122,8 +122,8 @@ export const loadAdvert = (advertId: string) => {
     }
     try {
       dispatch(advertsDetailPending());
-      const tweet = await advertsService.getAdvert(advertId);
-      dispatch(advertsDetailFulfilled(tweet));
+      const advert = await advertsService.getAdvert(advertId);
+      dispatch(advertsDetailFulfilled(advert));
     } catch (error) {
       dispatch(advertsDetailRejected(error));
     }
