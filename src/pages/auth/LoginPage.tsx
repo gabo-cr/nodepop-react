@@ -34,7 +34,7 @@ export default function LoginPage() {
 
 	const handleSubmit = async (event: SyntheticEvent) => {
 		event.preventDefault();
-		dispatch(authLogin(formValues));
+		dispatch(authLogin(formValues, rememberme));
 	};
 
 	const resetError = () => dispatch(uiResetError());

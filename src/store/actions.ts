@@ -20,11 +20,11 @@ export const authLoginRejected = (error: any) => ({
 	error: true,
 });
 
-export const authLogin = (credentials: TLoginParameters) => {
+export const authLogin = (credentials: TLoginParameters, persist: boolean) => {
   return async function (dispatch: Dispatch, _getState: any, { services: { authService }, router }: { services: TServices, router: Router }) {
     try {
       dispatch(authLoginPending());
-      await authService.login(credentials);
+      await authService.login(credentials, persist);
       dispatch(authLoginFulfilled());
       const to = router.state.location.state?.from || '/';
       router.navigate(to, { replace: true });
