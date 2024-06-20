@@ -1,9 +1,9 @@
 import { Dispatch } from "redux";
 import { TAdvert, TAdvertFormValues } from "../types/adverts";
 import { TLoginParameters } from "../types/auth";
-import { ADVERTS_ADD_FULFILLED, ADVERTS_ADD_PENDING, ADVERTS_ADD_REJECTED, ADVERTS_DELETE_FULFILLED, ADVERTS_DELETE_PENDING, ADVERTS_DELETE_REJECTED, ADVERTS_DETAIL_FULFILLED, ADVERTS_DETAIL_PENDING, ADVERTS_DETAIL_REJECTED, ADVERTS_LOAD_FULFILLED, ADVERTS_LOAD_PENDING, ADVERTS_LOAD_REJECTED, AUTH_LOGIN_FULFILLED, AUTH_LOGIN_PENDING, AUTH_LOGIN_REJECTED, AUTH_LOGOUT, UI_RESET_ERROR } from "./types";
+import { ADVERTS_ADD_FULFILLED, ADVERTS_ADD_PENDING, ADVERTS_ADD_REJECTED, ADVERTS_DELETE_FULFILLED, ADVERTS_DELETE_PENDING, ADVERTS_DELETE_REJECTED, ADVERTS_DETAIL_FULFILLED, ADVERTS_DETAIL_PENDING, ADVERTS_DETAIL_REJECTED, ADVERTS_LOAD_FULFILLED, ADVERTS_LOAD_PENDING, ADVERTS_LOAD_REJECTED, AUTH_LOGIN_FULFILLED, AUTH_LOGIN_PENDING, AUTH_LOGIN_REJECTED, AUTH_LOGOUT, TAGS_LOAD_FULFILLED, TAGS_LOAD_PENDING, TAGS_LOAD_REJECTED, UI_RESET_ERROR } from "./types";
 import type { Router } from "@remix-run/router";
-import { areAdvertsLoaded, getAdvert } from "./selectors";
+import { areAdvertsLoaded, areTagsLoaded, getAdvert } from "./selectors";
 import { TServices } from "../types/store";
 
 export const authLoginPending = () => ({
@@ -154,6 +154,37 @@ export const deleteAdvert = (advertId: string) => {
       router.navigate('/adverts');
     } catch (error) {
       dispatch(advertsDeleteRejected(error));
+    }
+  };
+};
+
+export const tagsLoadPending = () => ({
+	type: TAGS_LOAD_PENDING,
+});
+
+export const tagsLoadFulfilled = (tags: string[]) => ({
+	type: TAGS_LOAD_FULFILLED,
+	payload: tags,
+});
+
+export const tagsLoadRejected = (error: any) => ({
+	type: TAGS_LOAD_REJECTED,
+	payload: error,
+	error: true,
+});
+
+export const loadTags = () => {
+  return async function (dispatch: Dispatch, getState: any, { services: { tagsService } }: { services: TServices }) {
+    const state = getState();
+    if (areTagsLoaded(state)) {
+      return;
+    }
+    try {
+      dispatch(tagsLoadPending());
+      const tags = await tagsService.getTags();
+      dispatch(tagsLoadFulfilled(tags));
+    } catch (error) {
+      dispatch(tagsLoadRejected(error));
     }
   };
 };

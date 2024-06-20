@@ -1,5 +1,6 @@
 import { advertsService } from "../api/adverts";
 import { authService } from "../api/auth";
+import { tagsService } from "../api/tags";
 import { TAdvert } from "./adverts";
 
 export type TState = {
@@ -11,7 +12,11 @@ export type TState = {
 	ui: {
 		pending: boolean;
 		error: any;
-	}
+	};
+	tags: {
+		data: string[];
+		loaded: boolean;
+	};
 };
 
 export type TAction = {
@@ -23,4 +28,5 @@ export type TAction = {
 export type TServices = {
 	authService: typeof authService;
 	advertsService: typeof advertsService;
+	tagsService: typeof tagsService;
 };

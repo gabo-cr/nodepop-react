@@ -20,4 +20,8 @@ export const ADVERTS_DETAIL_PENDING = 'adverts/detail/pending';
 export const ADVERTS_DETAIL_FULFILLED = 'adverts/detail/fulfilled';
 export const ADVERTS_DETAIL_REJECTED = 'adverts/detail/rejected';
 
+export const TAGS_LOAD_PENDING = 'tags/load/pending';
+export const TAGS_LOAD_FULFILLED = 'tags/load/fulfilled';
+export const TAGS_LOAD_REJECTED = 'tags/load/rejected';
+
 export const UI_RESET_ERROR = 'ui/reset-error';

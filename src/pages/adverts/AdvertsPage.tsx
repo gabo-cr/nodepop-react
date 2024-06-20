@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
-import { getAdverts, getUi } from "../../store/selectors";
-import { loadAdverts } from "../../store/actions";
-
-import { getTags } from "../../api/tags";
+import { getAdverts, getTags, getUi } from "../../store/selectors";
+import { loadAdverts, loadTags } from "../../store/actions";
 
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import Alert from "../../components/shared/alert/Alert";
@@ -34,9 +32,9 @@ const defaultFilterValues = {
 export default function AdvertsPage() {
 	const dispatch = useDispatch<any>();
 	const allAdverts = useSelector(getAdverts);
+	const allTags = useSelector(getTags);
 	const { pending: isFetching, error } = useSelector(getUi);
 
-	const [allTags, setAllTags] = useState<string[]>([]);
 	const [filterValues, setFilterValues] = useState<FilterValue>(defaultFilterValues);
 
 	useEffect(() => {
@@ -44,13 +42,8 @@ export default function AdvertsPage() {
 	}, [dispatch]);
 
 	useEffect(() => {
-		const getAllTags = async () => {
-			const tags = await getTags();
-			setAllTags(tags);
-		};
-
-		getAllTags();
-	}, [])
+		dispatch(loadTags());
+	}, [dispatch])
 
 	const filterAdverts = () => {
 		let filteredAdverts = [...allAdverts];

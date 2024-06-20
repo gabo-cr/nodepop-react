@@ -20,6 +20,10 @@ const store = configureStore({
     data: [],
     loaded: false
   },
+  tags: {
+    data: [],
+    loaded: false
+  },
   ui: {
     pending: false,
     error: undefined

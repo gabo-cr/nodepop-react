@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { TAdvertFormValues } from "../../../types/adverts";
 
-import { createAdvert } from "../../../store/actions";
-import { getUi } from "../../../store/selectors";
-import { getTags } from "../../../api/tags";
+import { createAdvert, loadTags } from "../../../store/actions";
+import { getTags, getUi } from "../../../store/selectors";
 
 import DashboardLayout from "../../../components/layout/DashboardLayout";
 import { FormInput } from "../../../components/shared/form/input/FormInput";
@@ -24,9 +23,9 @@ type FormError = {
 
 export default function NewAdvertPage() {
 	const dispatch = useDispatch<any>();
+	const allTags = useSelector(getTags);
 	const { pending: isLoading, error } = useSelector(getUi);
 	
-	const [allTags, setAllTags] = useState<string[]>([]);
 	const [formValues, setFormValues] = useState<TAdvertFormValues>({
 		name: '',
 		sale: '',
@@ -37,13 +36,8 @@ export default function NewAdvertPage() {
 	const [formErrors, setFormErrors] = useState<FormError>();
 	
 	useEffect(() => {
-		const getAllTags = async () => {
-			const tags = await getTags();
-			setAllTags(tags);
-		};
-
-		getAllTags();
-	}, [])
+		dispatch(loadTags());
+	}, [dispatch])
 
 	const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
 		setFormValues(currentFormValues => ({
