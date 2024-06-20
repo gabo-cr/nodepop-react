@@ -1,19 +1,23 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { TAdvert } from "../../types/adverts";
-
 import { Link } from "react-router-dom";
-import { getAdverts } from "../../api/adverts";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+
+import { getAdverts, getUi } from "../../store/selectors";
+import { loadAdverts } from "../../store/actions";
+
+import { getTags } from "../../api/tags";
+
+import DashboardLayout from "../../components/layout/DashboardLayout";
 import Alert from "../../components/shared/alert/Alert";
-import { TResponseError } from "../../types/error";
 import Advert from "../../components/adverts/Advert";
 import EmptyList from "../../components/adverts/EmptyList";
-import './AdvertsPage.css';
-import DashboardLayout from "../../components/layout/DashboardLayout";
 import Loader from "../../components/shared/loader/Loader";
 import { FormInput } from "../../components/shared/form/input/FormInput";
 import FormSelect, { TSelectOption } from "../../components/shared/form/select/FormSelect";
-import { getTags } from "../../api/tags";
 import Button from "../../components/shared/button/Button";
+
+import './AdvertsPage.css';
 
 type FilterValue = {
 	name: string,
@@ -28,27 +32,16 @@ const defaultFilterValues = {
 };
 
 export default function AdvertsPage() {
-	const [allAdverts, setAllAdverts] = useState<TAdvert[]>([]);
+	const dispatch = useDispatch<any>();
+	const allAdverts = useSelector(getAdverts);
+	const { pending: isFetching, error } = useSelector(getUi);
+
 	const [allTags, setAllTags] = useState<string[]>([]);
-	const [error, setError] = useState<TResponseError | null>(null);
-	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [filterValues, setFilterValues] = useState<FilterValue>(defaultFilterValues);
 
 	useEffect(() => {
-		const loadAdverts = async () => {
-			try {
-				setIsLoading(true);
-				const allAdverts = await getAdverts();
-				setAllAdverts(allAdverts);
-				setIsLoading(false);
-			} catch (error: any) {
-				setError(error);
-				setIsLoading(false);
-			}
-		}
-
-		loadAdverts();
-	}, []);
+		dispatch(loadAdverts());
+	}, [dispatch]);
 
 	useEffect(() => {
 		const getAllTags = async () => {
@@ -99,7 +92,7 @@ export default function AdvertsPage() {
 
 	const filteredAdverts = filterAdverts();
 
-	if (isLoading) {
+	if (isFetching) {
 		return (
 			<DashboardLayout title="Anuncios">
 				<Loader />

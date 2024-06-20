@@ -1,5 +1,5 @@
 import { TAction, TState } from "../types/store";
-import { ADVERTS_ADD_FULFILLED, ADVERTS_DETAIL_FULFILLED, ADVERTS_LOAD_FULFILLED, AUTH_LOGIN_FULFILLED, AUTH_LOGOUT, UI_RESET_ERROR } from "./types";
+import { ADVERTS_ADD_FULFILLED, ADVERTS_DELETE_FULFILLED, ADVERTS_DETAIL_FULFILLED, ADVERTS_LOAD_FULFILLED, AUTH_LOGIN_FULFILLED, AUTH_LOGOUT, UI_RESET_ERROR } from "./types";
 
 export const defaultState: TState = {
 	auth: false,
@@ -29,7 +29,9 @@ export function adverts(state = defaultState.adverts, action: TAction) {
 		case ADVERTS_LOAD_FULFILLED:
 			return { ...state, loaded: true, data: action.payload };
 		case ADVERTS_ADD_FULFILLED:
-			return { ...state, data: state && [action.payload, ...state.data] }; 
+			return { ...state, data: state && [action.payload, ...state.data] };
+		case ADVERTS_DELETE_FULFILLED:
+			return { ...state, data: state.data.filter(el => el.id !== action.payload) };
 		case ADVERTS_DETAIL_FULFILLED:
 			return { ...state, data: [action.payload] };
 		default:

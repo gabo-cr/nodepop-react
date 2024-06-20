@@ -1,30 +1,25 @@
 import { useState } from 'react';
-import { deleteAdvert } from '../../api/adverts';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { TAdvert } from '../../types/adverts';
+
+import { deleteAdvert } from '../../store/actions';
+import { getUi } from '../../store/selectors';
+
 import Button from '../shared/button/Button';
-import './AdvertDetail.css';
-import { TResponseError } from '../../types/error';
 import Alert from '../shared/alert/Alert';
 import Modal from '../shared/modal/Modal';
-import { useNavigate } from 'react-router-dom';
+
+import './AdvertDetail.css';
 
 export default function AdvertDetail({ id, name, photo, sale, price, tags }: TAdvert) {
-	const navigate = useNavigate();
+	const dispatch = useDispatch<any>();
+	const { pending: isDeleting, error } = useSelector(getUi);
 	
-	const [isDeleting, setIsDeleting] = useState<boolean>(false);
-	const [error, setError] = useState<TResponseError | null>(null);
 	const [openModal, setOpenModal] = useState<boolean>(false);
 
 	const handleDelete = async () => {
-		try {
-			setIsDeleting(true);
-			await deleteAdvert(id);
-			setIsDeleting(false);
-			navigate('/adverts');
-		} catch (error: any) {
-			setError(error);
-			setIsDeleting(false);
-		}
+		dispatch(deleteAdvert(id));
 	};
 
 	const handleModalCancel = () => {

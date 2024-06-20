@@ -1,34 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getAdvert } from "../../../store/selectors";
+import { loadAdvert } from "../../../store/actions";
+
 import DashboardLayout from "../../../components/layout/DashboardLayout";
-import { TAdvert } from "../../../types/adverts";
-import { useNavigate, useParams } from "react-router-dom";
-import { getAdvert } from "../../../api/adverts";
 import Loader from "../../../components/shared/loader/Loader";
 import AdvertDetail from "../../../components/advert/AdvertDetail";
 
 export default function AdvertPage() {
-	const navigate = useNavigate();
-	const params = useParams();
-
-	const [advert, setAdvert] = useState<TAdvert | null>(null);
+	const { advertId } = useParams();
+	const dispatch = useDispatch<any>();
+	const advert = useSelector(getAdvert(advertId));
 
 	useEffect(() => {
-		const loadAdvert = async () => {
-			try {
-				if (params.advertId) {
-					const advert = await getAdvert(params.advertId);
-					setAdvert(advert);
-				}
-			} catch (error: any) {
-				if (error.status === 404) {
-					navigate('/404');
-				}
-			}
-		};
-
-		loadAdvert();
-	}, [params.advertId, navigate])
-
+		if (advertId) {
+			dispatch(loadAdvert(advertId));
+		}
+	}, [advertId, dispatch])
 	
 	return (
 		<DashboardLayout title="">

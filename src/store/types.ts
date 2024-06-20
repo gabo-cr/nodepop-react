@@ -12,6 +12,10 @@ export const ADVERTS_ADD_PENDING = 'adverts/add/pending';
 export const ADVERTS_ADD_FULFILLED = 'adverts/add/fulfilled';
 export const ADVERTS_ADD_REJECTED = 'adverts/add/rejected';
 
+export const ADVERTS_DELETE_PENDING = 'adverts/delete/pending';
+export const ADVERTS_DELETE_FULFILLED = 'adverts/delete/fulfilled';
+export const ADVERTS_DELETE_REJECTED = 'adverts/delete/rejected';
+
 export const ADVERTS_DETAIL_PENDING = 'adverts/detail/pending';
 export const ADVERTS_DETAIL_FULFILLED = 'adverts/detail/fulfilled';
 export const ADVERTS_DETAIL_REJECTED = 'adverts/detail/rejected';

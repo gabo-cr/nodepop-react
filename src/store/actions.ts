@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { TAdvert, TAdvertFormValues } from "../types/adverts";
 import { TLoginParameters } from "../types/auth";
-import { ADVERTS_ADD_FULFILLED, ADVERTS_ADD_PENDING, ADVERTS_ADD_REJECTED, ADVERTS_DETAIL_FULFILLED, ADVERTS_DETAIL_PENDING, ADVERTS_DETAIL_REJECTED, ADVERTS_LOAD_FULFILLED, ADVERTS_LOAD_PENDING, ADVERTS_LOAD_REJECTED, AUTH_LOGIN_FULFILLED, AUTH_LOGIN_PENDING, AUTH_LOGIN_REJECTED, AUTH_LOGOUT, UI_RESET_ERROR } from "./types";
+import { ADVERTS_ADD_FULFILLED, ADVERTS_ADD_PENDING, ADVERTS_ADD_REJECTED, ADVERTS_DELETE_FULFILLED, ADVERTS_DELETE_PENDING, ADVERTS_DELETE_REJECTED, ADVERTS_DETAIL_FULFILLED, ADVERTS_DETAIL_PENDING, ADVERTS_DETAIL_REJECTED, ADVERTS_LOAD_FULFILLED, ADVERTS_LOAD_PENDING, ADVERTS_LOAD_REJECTED, AUTH_LOGIN_FULFILLED, AUTH_LOGIN_PENDING, AUTH_LOGIN_REJECTED, AUTH_LOGOUT, UI_RESET_ERROR } from "./types";
 import type { Router } from "@remix-run/router";
 import { areAdvertsLoaded, getAdvert } from "./selectors";
 import { TServices } from "../types/store";
@@ -126,6 +126,34 @@ export const loadAdvert = (advertId: string) => {
       dispatch(advertsDetailFulfilled(tweet));
     } catch (error) {
       dispatch(advertsDetailRejected(error));
+    }
+  };
+};
+
+export const advertsDeletePending = () => ({
+	type: ADVERTS_DELETE_PENDING,
+});
+
+export const advertsDeleteFulfilled = (advertId: string) => ({
+	type: ADVERTS_DELETE_FULFILLED,
+	payload: advertId,
+});
+
+export const advertsDeleteRejected = (error: any) => ({
+	type: ADVERTS_DELETE_REJECTED,
+	payload: error,
+	error: true,
+});
+
+export const deleteAdvert = (advertId: string) => {
+  return async function (dispatch: Dispatch, _getState: any, { services: { advertsService }, router }: { services: TServices, router: Router }) {
+    try {
+      dispatch(advertsDeletePending());
+      await advertsService.deleteAdvert(advertId);
+      dispatch(advertsDeleteFulfilled(advertId));
+      router.navigate('/adverts');
+    } catch (error) {
+      dispatch(advertsDeleteRejected(error));
     }
   };
 };
