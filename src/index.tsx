@@ -14,7 +14,17 @@ if (accessToken) {
 }
 
 const router = createBrowserRouter([{ path: '*', element: <App /> }]);
-const store = configureStore({ auth: !!accessToken }, { router });
+const store = configureStore({
+  auth: !!accessToken,
+  adverts: {
+    data: [],
+    loaded: false
+  },
+  ui: {
+    pending: false,
+    error: undefined
+  }
+}, { router });
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

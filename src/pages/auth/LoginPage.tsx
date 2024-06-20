@@ -1,28 +1,24 @@
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import { FormInput } from "../../components/shared/form/input/FormInput";
-import { login } from "../../api/auth";
-import { useLocation, useNavigate } from "react-router-dom";
 import { TLoginParameters } from "../../types/auth";
-import { TResponseError } from "../../types/error";
-import { useAuth } from "../../context/AuthContextProvider";
 import Alert from "../../components/shared/alert/Alert";
 import AuthLayout from "../../components/layout/authLayout/AuthLayout";
 import Button from "../../components/shared/button/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { getUi } from "../../store/selectors";
+import { authLogin, uiResetError } from "../../store/actions";
 
 export default function LoginPage() {
 	//** Hooks */
-	const location = useLocation();
-  	const navigate = useNavigate();
-	const { onLogin } = useAuth();
-
+	const dispatch = useDispatch<any>();
+	const { pending: isFetching, error } = useSelector(getUi);
+	
 	//** States */
-	const [isFetching, setIsFetching] = useState<boolean>(false);
 	const [formValues, setFormValues] = useState<TLoginParameters>({
 		email: '',
 		password: '',
 	});
 	const [rememberme, setRememberme] = useState<boolean>(false);
-	const [error, setError] = useState<TResponseError | null>(null);
 
 	//** Handlers */
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -38,19 +34,10 @@ export default function LoginPage() {
 
 	const handleSubmit = async (event: SyntheticEvent) => {
 		event.preventDefault();
-
-		try {
-			setIsFetching(true);
-			await login(formValues, rememberme);
-			setIsFetching(false);
-			onLogin();
-			const to = location.state?.from || '/';
-			navigate(to, { replace: true });
-		} catch (error: any) {
-			setIsFetching(false);
-			setError(error);
-		}
+		dispatch(authLogin(formValues));
 	};
+
+	const resetError = () => dispatch(uiResetError());
 
 	const { email, password } = formValues;
 	const buttonDisabled = !email || !password || isFetching;
@@ -66,7 +53,9 @@ export default function LoginPage() {
 				</form>
 				{error && (
 					<Alert variant="error">
-						{error.message}
+						<div onClick={resetError}>
+							{error.message}
+						</div>
 					</Alert>
 				)}
 			</div>

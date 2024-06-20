@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { useSelector } from 'react-redux';
+import { getIsLogged } from '../../store/selectors';
 
 type Props = {
 	children: React.ReactNode,
@@ -7,7 +8,7 @@ type Props = {
 
 export default function RequireAuth({ children }: Props) {
 	const location = useLocation();
-	const { isLogged } = useAuth();
+	const isLogged = useSelector(getIsLogged);
 
 	if (isLogged) {
 		return <>{children}</>;

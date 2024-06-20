@@ -3,12 +3,12 @@ import { authService } from "../api/auth";
 import { TAdvert } from "./adverts";
 
 export type TState = {
-	auth?: boolean;
-	adverts?: {
+	auth: boolean;
+	adverts: {
 		data: TAdvert[];
 		loaded: boolean;
 	};
-	ui?: {
+	ui: {
 		pending: boolean;
 		error: any;
 	}

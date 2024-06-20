@@ -1,10 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
-import { useAuth } from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import { getIsLogged } from "../../../store/selectors";
 import AuthButton from "../../auth/AuthButton";
 import './NavBar.css';
 
 export default function NavBar() {
-	const { isLogged } = useAuth();
+	const isLogged = useSelector(getIsLogged);
 	
 	return (
 		<div className="navbar">

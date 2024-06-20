@@ -1,17 +1,21 @@
-import { logout } from '../../api/auth';
-import { useAuth } from '../../hooks/useAuth';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../shared/button/Button';
 import Modal from '../shared/modal/Modal';
 import { useState } from 'react';
+import { getIsLogged } from '../../store/selectors';
+import { authService } from '../../api/auth';
+import { authLogout } from '../../store/actions';
 
 export default function AuthButton() {
-	const { isLogged, onLogout } = useAuth();
-
+	const dispatch = useDispatch<any>();
+	const isLogged = useSelector(getIsLogged);
+	
 	const [openModal, setOpenModal] = useState<boolean>(false);
 
 	const handleLogoutClick = async () => {
+		const { logout } = authService;
 		await logout();
-		onLogout();
+		dispatch(authLogout());
 	};
 
 	const handleModalCancel = () => {
