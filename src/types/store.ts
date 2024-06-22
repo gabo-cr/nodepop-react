@@ -21,7 +21,7 @@ export type TState = {
 
 export type TAction = {
 	type: string;
-	payload: any;
+	payload?: any;
 	error?: any;
 };
 

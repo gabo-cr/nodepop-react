@@ -1,8 +1,6 @@
-import { Dispatch } from "redux";
 import { TAdvert, TAdvertFormValues } from "../types/adverts";
 import { TLoginParameters } from "../types/auth";
 import { ADVERTS_ADD_FULFILLED, ADVERTS_ADD_PENDING, ADVERTS_ADD_REJECTED, ADVERTS_DELETE_FULFILLED, ADVERTS_DELETE_PENDING, ADVERTS_DELETE_REJECTED, ADVERTS_DETAIL_FULFILLED, ADVERTS_DETAIL_PENDING, ADVERTS_DETAIL_REJECTED, ADVERTS_LOAD_FULFILLED, ADVERTS_LOAD_PENDING, ADVERTS_LOAD_REJECTED, AUTH_LOGIN_FULFILLED, AUTH_LOGIN_PENDING, AUTH_LOGIN_REJECTED, AUTH_LOGOUT, TAGS_LOAD_FULFILLED, TAGS_LOAD_PENDING, TAGS_LOAD_REJECTED, UI_RESET_ERROR } from "./types";
-import type { Router } from "@remix-run/router";
 import { areAdvertsLoaded, areTagsLoaded, getAdvert } from "./selectors";
 import { TServices } from "../types/store";
 
@@ -21,7 +19,7 @@ export const authLoginRejected = (error: any) => ({
 });
 
 export const authLogin = (credentials: TLoginParameters, persist: boolean) => {
-  return async function (dispatch: Dispatch, _getState: any, { services: { authService }, router }: { services: TServices, router: Router }) {
+  return async function (dispatch: any, _getState: any, { services: { authService }, router }: { services: TServices, router: any }) {
     try {
       dispatch(authLoginPending());
       await authService.login(credentials, persist);
@@ -54,7 +52,7 @@ export const advertsLoadRejected = (error: any) => ({
 });
 
 export const loadAdverts = () => {
-  return async function (dispatch: Dispatch, getState: any, { services: { advertsService } }: { services: TServices }) {
+  return async function (dispatch: any, getState: any, { services: { advertsService } }: { services: TServices }) {
     const state = getState();
     if (areAdvertsLoaded(state)) {
       return;
@@ -85,7 +83,7 @@ export const advertsAddRejected = (error: any) => ({
 });
 
 export const createAdvert = (advert: TAdvertFormValues) => {
-  return async function (dispatch: Dispatch, _getState: any, { services: { advertsService }, router }: { services: TServices, router: Router }) {
+  return async function (dispatch: any, _getState: any, { services: { advertsService }, router }: { services: TServices, router: any }) {
     try {
       dispatch(advertsAddPending());
       const { id } = await advertsService.createAdvert(advert);
@@ -115,7 +113,7 @@ export const advertsDetailRejected = (error: any) => ({
 });
 
 export const loadAdvert = (advertId: string) => {
-  return async function (dispatch: Dispatch, getState: any, { services: { advertsService } }: { services: TServices }) {
+  return async function (dispatch: any, getState: any, { services: { advertsService } }: { services: TServices }) {
     const state = getState();
 		if (getAdvert(advertId)(state)) {
       return;
@@ -146,7 +144,7 @@ export const advertsDeleteRejected = (error: any) => ({
 });
 
 export const deleteAdvert = (advertId: string) => {
-  return async function (dispatch: Dispatch, _getState: any, { services: { advertsService }, router }: { services: TServices, router: Router }) {
+  return async function (dispatch: any, _getState: any, { services: { advertsService }, router }: { services: TServices, router: any }) {
     try {
       dispatch(advertsDeletePending());
       await advertsService.deleteAdvert(advertId);
@@ -174,7 +172,7 @@ export const tagsLoadRejected = (error: any) => ({
 });
 
 export const loadTags = () => {
-  return async function (dispatch: Dispatch, getState: any, { services: { tagsService } }: { services: TServices }) {
+  return async function (dispatch: any, getState: any, { services: { tagsService } }: { services: TServices }) {
     const state = getState();
     if (areTagsLoaded(state)) {
       return;
