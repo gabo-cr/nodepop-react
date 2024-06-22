@@ -7,6 +7,7 @@ import { TServices, TState } from "../types/store";
 
 import * as reducers from './reducers';
 import * as actionCreators from './actions';
+import { failureRedirects } from "./middlewares";
 
 import { authService } from '../api/auth';
 import { advertsService } from '../api/adverts';
@@ -26,6 +27,10 @@ export default function configureStore(preloadedState: TState, { router }: { rou
 		composeEnhancers(
 			applyMiddleware(
 				withExtraArgument({ services, router }),
+				failureRedirects(router, {
+          401: '/login',
+          404: '/404',
+        }),
 			)
 		)
 	);
