@@ -1,36 +1,52 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import LoginPage from '../LoginPage';
 import { Provider } from 'react-redux';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import configureStore from '../../../store';
+import { authLogin } from '../../../store/actions';
+
+
+jest.mock('../../../store/actions');
+
+const userType = (input, text) => userEvent.type(input, text);
 
 describe('LoginPage', () => {
-	const router = createBrowserRouter([{ path: '*', element: <LoginPage /> }]);
-	const store = configureStore({
-		auth: false,
-		adverts: {
-			data: [],
-			loaded: false
-		},
-		tags: {
-			data: [],
-			loaded: false
-		},
-		ui: {
-			pending: false,
-			error: undefined
-		}
-	}, { router });
+	const state = { ui: { pending: false, error: null } };
+  const store = {
+    dispatch: () => {},
+    getState: () => state,
+    subscribe: () => {},
+  };
 	
 	const renderComponent = () => render(
 		<Provider store={store}>
-			<RouterProvider router={router} />
-		</Provider>
+			<LoginPage />
+		</Provider>,
 	);
 
 	test('snapshot', () => {
 		const { container } = renderComponent();
 		expect(container).toMatchSnapshot();
 	});
+
+	test('should dispatch authLogin action', () => {
+    const email = 'email';
+    const password = 'password';
+    renderComponent();
+
+    const emailInput = screen.getByRole('textbox', { name: /email/i });
+    const passwordInput = screen.getByLabelText(/password/i);
+    const submitButton = screen.getByRole('button', { name: /log in/i });
+
+    expect(submitButton).toBeDisabled();
+		
+    act(() => userType(emailInput, email));
+    act(() => userType(passwordInput, password));
+    
+    expect(submitButton).toBeEnabled();
+
+		userEvent.click(submitButton);
+    
+    expect(authLogin).toHaveBeenCalledWith({ email, password }, false);
+  });
 });
